@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinner planner</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/stylesheet.css">
+</head>
+
+<body >
+    <nav class="navbar navbar-default" >
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a href="#">
+                <h1>HOMELETTE <small>From the best chefs in the world directly into your kitchen</small></h1>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+<!-- Home View -->
+    <div id="homeView" class="container" style="background-image:url(images/background.jpg)">
+        <div ng-show="aaa" class="createdinner text-center">
+            <h3> A Home Dinner Service</h3>
+            <p>The Recipe Finder allows you to quickly and confidently search and browse thousands of professionally tested recipes from favorite brands such as Cooking Light, Southerns Living, Health, and Sunset.
+            <button id="createDinner" class="big-button" role="button">Create new dinner</button>  
+            </p>
+        </div>
+    </div>
+	
+<!-- Sidebar View -->
+<div id="sidebarView" style="display:none" >
+    <div class="col-md-3 sidebar" >
+        <h4 sytle="text-align:center">My Dinner</h4>
+        <div >Number of guests: <span id="numberOfGuests"></span>
+            <button id="minusGuest" class="btn"><span class="glyphicon glyphicon-minus"></span></button>
+            <button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
+        </div>
+        <div class="table-responsive">
+            <table id="myTable" class="table table-striped" cellpadding="0" cellspacing="0">
+            <thead>
+            <tr>
+            <th >dish name</th>
+            <th width="40">cost</th>
+            <th width="40">delete</th>
+            </tr>
+            </thead>
+            <tbody >           
+            
+            </tbody>
+            </table>
+            </div>
+            <div class="buy"><strong style="float:right">Total cost：<span id="totalCost">0</span></strong>
+            <p><button id="confirmButton" class="mid-button">Create new dinner</button></p>
+        </div>
+    </div>
+</div>
+
+<!-- Select dish view -->
+ <div id="selectDishView" style="display: none" >
+    <div id="content";class="col-md-9" >
+        <div class="col-md-8"> 
+            <h4>Search</h4>
+            <form class="row" role"form">
+            <div class="form-group col-xs-5">
+                <input type="keyword" id="searchDish" placeholder="Search" class="form-control">
+            </div>
+            <div class="form-group col-xs-3">  <button id="searchButton" class="btn btn-search">Search</button>
+            </div>
+            <div class="form-group col-xs-2">
+             
+                <select class="form-control" id="option">
+                        <option id="allOpt">All</option>
+                        <option id="startersOpt">Appetizers</option>
+                        <option id="mainOpt">Main Dish</option>
+                        <option id="dessertsOpt">Desserts</option>
+                </select>
+            </div>
+            </form>
+        </div>       
+        <div class="col-md-9" >
+        
+            <div id="loading" style="display:none">
+                <img  class="img" id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+            </div>
+                
+            <div id="starters">
+           
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Dish description view -->
+<div id="dishDescriptionView" style="display:none">    
+    <div class="col-md-8" style="border-style:solid ">        
+        <div class="col-md-6">
+            <div id="loading" style="display:none">
+                <img  class="img" id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
+            </div>            
+            <h3 id='dishName'></h3>
+            <img id="dishImg" style="margin-top: 5px; margin-bottom: 5px; margin-right:5px; width: 150px; height:150px">
+            <p id="dishDescription" style="color:rgba(146,146,146,1.00); font-size:12px; width:300px;"></p>
+            <p><button id="backToSelectDish" class="btn btn-xlarge btn-signup">back to select dish</button></p>
+            <div>
+            </div>
+        </div>
+        <div class="col-md-2" style="background-color:#eee; color:444; width:280px; margin-left:45px;border-style:outset; margin-top:35px">
+            <h4 id="numberOfGuests"></h4>
+            <table id="ingredientlist" class="table" cellpadding="0" cellspacing="0"><tbody> </tbody></table>
+            <p><button id="confirmDishButton" class="mid-button">confirm dish</button></p>
+        </div>
+    </div>
+</div>
+
+    <!-- Number of Guests view !-->
+<div id="numGuestsView" style="display: none">
+
+    <div class="col-md-12" style="background-color:rgba(240,234,156,1.00)" > 
+        <div class=" col-md-9">
+           <h4 id="numberOfGuests"></h4>
+        </div>
+        <div class=" col-md-3">
+            <button id="backButton" class="btn btn-xlarge btn-signup" style="margin-top:6px" >go back and edit dinner</button>
+        </div>
+    </div>
+</div>
+
+    <!-- dinner overview view !-->
+<div id="summaryView"  style="display: none;">  
+    <div id="starters" class="col-md-9" style="border-right:dashed rgba(235,235,235,1.00)" >
+        <div  class="col-md-4">
+            <div  class="subtitle">                
+            </div>
+            <p id="starterCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;"></p>
+        </div>
+
+        <div  class="col-md-4">
+            <div class="subtitle">
+                <img id="main" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+                <h6 id="mainName"></h6>
+            </div>
+            <p id="mainCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;"></p>
+        </div>
+
+        <div  class="col-md-4">
+            <div class="subtitle">
+                <img id="dessert" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+                <h6 id="dessertName"></h6>
+            </div>
+            <p id="dessertCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;"></p>
+        </div>
+    </div>
+    
+    <div  class="col-md-3" style="margin-top:120px">  
+        <p> total:</p>
+        <p id="totalCost">341.20SEK</p>
+    </div>
+
+    <div class="col-md-12 text-center" style="border-top:dashed rgba(235,235,235,1.00);">
+        <button id="printRecipeBtn" class="mid-button" style="margin-top:20px; font-size:18px" >Print Full Recipe</button>
+    </div>
+</div>
+
+<!-- dinner preparation view !-->
+    <div id="instructionsView" style="display: none">
+
+
+
+        <div id="dishes" >
+                      
+        
+        </div>
+    <!--
+
+        <div id="dishes" class="col-md-12" style=" border-bottom:dashed rgba(232,232,232,1.00)">
+            <div class="col-md-2">
+                <img id="starter" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+            </div>
+            <div class="col-md-4">
+                <h4 id="starterName"></h4>
+                <p id="starterDescription" style="font-size:11px"></p>
+            </div>
+            <div id="starterIngredients" class="col-md-6">
+            </div>
+        </div>
+    -->
+
+        
+
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap JavaScript, needed if you want for instance tabs, models, popovers etc. -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+	<!-- The application JavaScript code -->
+	<script src="js/app.js"></script>
+    <script src="js/model/dinnerModel.js"></script>
+    <script src="js/view/homeView.js"></script>
+    <script src="js/view/selectDishView.js"></script> 
+    <script src="js/controllers/selectDishViewController.js"> </script>
+    <script src="js/view/dishDescriptionView.js"></script> 
+    <script src="js/controllers/dishDescriptionViewController.js"> </script>
+    <script src="js/view/sidebarView.js"></script>
+    <script src="js/controllers/sidebarViewController.js"></script>
+   <script src="js/view/summaryView.js"></script>
+   <script src="js/controllers/summaryViewController.js"></script>
+   <script src="js/view/instructionsView.js"></script>
+   <script src="js/view/numGuestsView.js"></script>
+    <script src="js/controllers/numGuestsViewController.js"></script>
+  </body>
+</html>
