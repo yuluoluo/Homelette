@@ -3,13 +3,15 @@ var DinnerModel = function() {
 
     var numberOfGuests=1;
     var menu=[];
-    var lastClickedRecipeId=1;
+    var lastClickedDishId=1;
 
 	//TODO Lab 2 implement the data structure that will hold number of guest
 	// and selected dinner options for dinner menu
 
     this.setNumberOfGuests = function(num){
         numberOfGuests=num;
+        notifyObservers();
+
     }
 
 	// should return
@@ -19,56 +21,29 @@ var DinnerModel = function() {
 	}
 
     this.setLastClickedDishId = function(id) {
-		lastClickedRecipeId = id;
-		//notifyObservers(lastClickedRecipeId);
+		lastClickedDishId = id;
+		notifyObservers();
 
 	}
 
 	this.getLastClickedDishId = function() {
-		return lastClickedRecipeId;
+		return lastClickedDishId;
     }
 	//Returns the dish that is on the menu for selected type
 	this.getSelectedDish = function(type) {
 	    return menu[type];
 	}
 
-
-    //Adds the passed dish to the menu. If the dish of that type already exists on the menu
-	//it is removed from the menu and the new one added.
-	this.addDishToMenu = function(data) {
-		//alert(data.RecipeID);
-	    //var dish=this.getDish(id);
-        menu[data.RecipeID]=data;
-
-    }
-
 	//Returns all the dishes on the menu.
 	this.getFullMenu = function() {
-
 	    var allDishes=[];
         for(x in menu){
-            allDishes.push(menu[x]);
+            allDishes.push(this.getDish(menu[x]));
             }
-
-        notifyObservers(allDishes);
-        //return menu;
-
-
+        return allDishes;
+        notifyObservers();
 	}
 
-    this.getDishCost = function(data) {
-    	if(data){
-        var ingredients=data.Ingredients;
-        var dishCost=0;
-        for(x in ingredients){
-            dishCost+=ingredients[x].Quantity*this.getNumberOfGuests()
-            //dishCost+= dish.ingredients[x].price*this.getNumberOfGuests();
-        }
-        return parseInt(dishCost);
-    	}	
-    	else{
-    	return 0;
-    	}}
 	//Returns all ingredients for all the dishes on the menu.
 	this.getAllIngredients = function() {
 	   var allIngredients=[];
@@ -81,16 +56,25 @@ var DinnerModel = function() {
 
 	}
 
-
+    //Adds the passed dish to the menu. If the dish of that type already exists on the menu
+	//it is removed from the menu and the new one added.
+	this.addDishToMenu = function(id) {
+	    var dish=this.getDish(id);
+        menu[dish.type]=id;
+        notifyObservers();
+    }
 
 
 	//Returns the total price of the menu (all the ingredients multiplied by number of guests).
-	this.getTotalMenuCost = function() {
+	this.getTotalMenuPrice = function() {
 	    var totalMenuPrice=0;
-        for(x in menu){
-            totalMenuPrice+=this.getDishCost(menu[x]);
+        var allDishes=this.getFullMenu();
+        for(x in allDishes){
+            var dishIngredients=allDishes[x].ingredients;
+            for(y in dishIngredients){
+                totalMenuPrice+=dishIngredients[y].price*this.getNumberOfGuests();
             }
-
+        }
         return totalMenuPrice;
     }
 
@@ -98,11 +82,19 @@ var DinnerModel = function() {
 
 
 	//Removes dish from menu
-	this.removeDishFromMenu = function(id) {
-        delete menu[id];   
-        
-    }
+	this.removeDishFromMenu = function(type) {
+        delete menu[type];
+        notifyObservers();
 
+    }
+    this.getDishCost = function(id) {
+        var dish=this.getDish(id);
+        var dishCost=0;
+        for(x in dish.ingredients){
+            dishCost+= dish.ingredients[x].price*this.getNumberOfGuests();
+        }
+        return dishCost;
+    }
 	//function that returns all dishes of specific type (i.e. "starter", "main dish" or "dessert")
 	//you can use the filter argument to filter out the dish by name or ingredient (use for search)
 	//if you don't pass any filter all the dishes will be returned
@@ -125,40 +117,7 @@ var DinnerModel = function() {
 	  });
 	}
 
-	
-
-    this.getRecipeJsonSearch = function(dataInput) {  
-    	var apiKey = "dvxPe6DsA5BqeA8eMX9GTkKSDe08B2Ax";
-        if(isNaN(dataInput)){
-	    	var titleKeyword = dataInput;	        
-	        //var titleKeyword = "lasagna";        
-	        var url = "http://api.bigoven.com/recipes?pg=1&rpp=20&title_kw="
-	                  + titleKeyword
-	                  + "&api_key="+apiKey;
-        }
-        else{
-        	var titleKeyword = dataInput;        	
-        	var url = "http://api.bigoven.com/recipe/"+dataInput+"?api_key="+apiKey;
-        }
-        $.ajax({
-            type: "GET",
-            dataType: 'json',
-            cache: false,
-            url: url,
-            beforeSend: function() {
-            	$("#loading").show();
-   				},  
-            success: function (data) {            
-            	$("#loading").hide();             	           
-                notifyObservers(data);
-            },  
-            error: function(res){
-            		$("#loading").hide(); 
-                    alert("Unexpected error! Try again.");
-                 }
-        });        
-    }
-
+	//function that returns a dish of specific ID
 	this.getDish = function (id) {
 	  for(key in dishes){
 			if(dishes[key].id == id) {
@@ -167,14 +126,14 @@ var DinnerModel = function() {
 		}
 	}
 
-this.getPrintableIngredients = function(data) {
+this.getPrintableIngredients = function(dish) {
 		var printableText = '';
-		for(var i = 0; i < data.Ingredients.length; i++) {
-			var current = data.Ingredients[i];
-			printableText += current.Name + ' : ' + (current.Quantity*this.getNumberOfGuests()) +  ' ' + current.Unit + '</BR>';
+		for(var i = 0; i < dish.ingredients.length; i++) {
+			var current = dish.ingredients[i];
+			printableText = printableText + current.name + ' ' + (current.quantity*this.getNumberOfGuests()) +  ' ' + current.unit + '</BR>';
 		}
 		return printableText;
-		//notifyObservers();
+		notifyObservers();
 	}
 
 	// the dishes variable contains an array of all the
@@ -443,7 +402,4 @@ this.getPrintableIngredients = function(data) {
 			observers[i].update(arg);
 		}
 	}
-
-
-
 }

@@ -8,8 +8,6 @@ $(function() {
 	//model.addDishToMenu(1);
 	//model.addDishToMenu(100);
 	//model.addDishToMenu(201);
-    var homeView = new HomeView($("#homeView"),model);
-    //var homeViewController = new HomeViewController(homeView,model);
 
     var sidebarView = new SidebarView($("#sidebarView"),model);
 	var sidebarViewController = new SidebarViewController(sidebarView,model);

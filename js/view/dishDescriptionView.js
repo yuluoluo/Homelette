@@ -9,24 +9,34 @@ var DishDescriptionView = function(container, model) {
 	this.dishDescription = container.find("#dishDescription");
     this.ingredientList = container.find("#ingredientlist");
     this.numberOfGuests = container.find("#numberOfGuests");
-    
+    //this.totalCost = container.find("#totalCost");
+
+   
 	model.addObserver(this);
-	this.update=function(data){
-	    //If there is a single element in data then do this	    
-        if(data.Title !== undefined){ 
-        
-	    this.data=data;
-		this.dishName.html(data.Title);
-        this.dishImg.attr('src', data.ImageURL);
-		this.dishDescription.html(data.Description);
+	this.update=function(){
+
+		this.dish = model.getDish(model.getLastClickedDishId());
+		this.dishName.html(this.dish.name);
+		this.dishImg.attr('src', 'images/' + this.dish.image);
+		this.dishDescription.html(this.dish.description);
  		this.numberOfGuests.html("Ingredients for "+ model.getNumberOfGuests()+" people");
-        this.ingredientList.html(model.getPrintableIngredients(data));
 
-      }
-      
-    }
+	var ingredientlist = "";
+			for (var x = 0; x < this.dish.ingredients.length; x++) {
+				ingredientlist +=  '<tr><td>'
+				+ this.dish.ingredients[x].name + '</td><td >'
+				+ this.dish.ingredients[x].quantity*model.getNumberOfGuests()
+				+ this.dish.ingredients[x].unit + '</td><td >' 
+				+ 'SEK ' + this.dish.ingredients[x].price*model.getNumberOfGuests() + '</td></tr>';
+
+			}
 
 
+			this.ingredientList.html(ingredientlist);
+
+
+	}
+	this.update();
 
 		
 }

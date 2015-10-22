@@ -7,20 +7,19 @@ var SidebarViewController = function(view, model ) {
 		$('#summaryView').show();
 	 });
 
-    $("#removeStarterBtn").on('click', function() {
-    	$('#starterMENU').hide();
-		model.removeDishFromMenu('starter');
-
+	 $("#removeStarterBtn").click(function(){
+	 	$('#starter').hide();
+		model.removeDishFromMenu(view.starter.id);
 	 });
 
 	 $("#removeMainBtn").click(function(){
-	 	$('#mainMENU').hide();
-		model.removeDishFromMenu('main dish');
+	 	$('#main').hide();
+		model.removeDishFromMenu(view.main.id);
 	 });
-
+	 
 	 $("#removeDessertBtn").click(function(){
-	 	$('#dessertMENU').hide();
-		model.removeDishFromMenu('dessert');
+	 	$('#dessert').hide();
+		model.removeDishFromMenu(view.dessert.id);
 	 });
 
 }

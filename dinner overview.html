@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dinner planner</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+</head>
+
+
+   <body >
+   <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#">
+        <h1>HOMELETTE <small>From the best chefs in the world directly into your kitchen</small></h1>
+      </a>
+    </div>
+  </div>
+</nav>
+
+   <div class="container" >
+   <div class="navbar navbar-default" style="background-color:rgba(240,234,156,1.00);"> 
+   <div class=" col-md-9">
+   <h4> My dinner:4 people</h4></div>
+   
+    <div class=" col-md-3">
+   <button class="btn btn-xlarge btn-signup" style="margin-top:6px" >go back and edit dinner</button></div></div>
+   
+   <div id="summaryView" class="col-md-9" style="border-right:dashed rgba(235,235,235,1.00)">
+   <div  class="col-md-4">
+<div class="subtitle">
+<img id="starter" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+<h6 id="starterName"></h6>
+</div>
+<p id="starterCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;">
+</p>
+</div>
+ <div  class="col-md-4">
+<div class="subtitle">
+<img id="main" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+<h6 id="mainName"></h6>
+</div>
+<p id="mainCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;">
+</p>
+</div>
+ <div  class="col-md-4">
+<div class="subtitle">
+<img id="dessert" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+<h6 id="dessertName"></h6>
+</div>
+<p id="starterCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;">
+</p>
+</div>
+  
+
+	</div>
+    
+   <div  class="col-md-3" style="margin-top:120px">  
+    <p> total:</p>
+    <p>341.20SEK</p>
+    </div>
+
+    <div class="col-md-12 text-center" style="border-top:dashed rgba(235,235,235,1.00);">
+      <a href="dinner preparation.html">
+      <button class="btn btn-xlarge btn-signup" style="margin-top:20px; font-size:18px;width:300px" >Print Full Recipe</button>
+      </a>
+    </div>
+  </div>
+ <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Bootstrap JavaScript, needed if you want for instance tabs, models, popovers etc. -->
+    <script src="js/typeahead.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+    <!-- The application JavaScript code -->
+   <script src="js/app.js"></script>
+    <script src="js/model/dinnerModel.js"></script>
+
+   
+    <script src="js/view/exampleView.js"></script>
+    
+
+    <script src="js/view/selectDishView.js"></script>
+    
+    <script src="js/view/dishDescriptionView.js"></script>
+    
+    <script src="js/view/instructionsView.js"></script>
+    
+    <script src="js/view/summaryView.js"></script>
+    
+  </body>
+</html>

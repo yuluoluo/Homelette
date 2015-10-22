@@ -41,7 +41,7 @@
             <button id="plusGuest" class="btn"><span class="glyphicon glyphicon-plus"></span></button>
         </div>
         <div class="table-responsive">
-            <table id="myTable" class="table table-striped" cellpadding="0" cellspacing="0">
+            <table class="table table-striped" cellpadding="0" cellspacing="0">
             <thead>
             <tr>
             <th >dish name</th>
@@ -49,8 +49,10 @@
             <th width="40">delete</th>
             </tr>
             </thead>
-            <tbody >           
-            
+            <tbody >
+            <tr id="starterMENU" style="display:none"><td class="ttl" id="starterItem"></td><td id="starterItemCost" width="30"></td><td width="40"><button id="removeStarterBtn" class="btn btn-xs btn-danger">x</button></td></tr>
+            <tr id="mainMENU" style="display:none"><td class="ttl" id="mainItem"></td><td id="mainItemCost" width="30"></td><td width="40"><button id="removeMainBtn" class="btn btn-xs btn-danger">x</button></td></tr>
+            <tr id="dessertMENU" style="display:none"><td class="ttl" id="dessertItem"></td><td id="dessertItemCost" width="30">0</td><td width="40"><button id="removeDessertBtn" class="btn btn-xs btn-danger">x</button></td></tr>
             </tbody>
             </table>
             </div>
@@ -61,7 +63,7 @@
 </div>
 
 <!-- Select dish view -->
- <div id="selectDishView" style="display: none" >
+ <div id="selectDishView" style="display: none;" >
     <div id="content";class="col-md-9" >
         <div class="col-md-8"> 
             <h4>Search</h4>
@@ -69,43 +71,38 @@
             <div class="form-group col-xs-5">
                 <input type="keyword" id="searchDish" placeholder="Search" class="form-control">
             </div>
-            <div class="form-group col-xs-3">  <button id="searchButton" class="btn btn-search">Search</button>
+            <div class="form-group col-xs-3">  <button type="submit" class="btn btn-search">Search</button>
             </div>
             <div class="form-group col-xs-2">
-             
+               <!-- <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Dropdown
+                <span class="caret"></span>
+                </button>-->
                 <select class="form-control" id="option">
                         <option id="allOpt">All</option>
-                        <option id="startersOpt">Appetizers</option>
-                        <option id="mainOpt">Main Dish</option>
+                        <option id="startersOpt">Starters</option>
+                        <option id="mainOpt">Main course</option>
                         <option id="dessertsOpt">Desserts</option>
                 </select>
             </div>
             </form>
-        </div>       
+        </div>
+       
         <div class="col-md-9" >
-        
-            <div id="loading" style="display:none">
-                <img  class="img" id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
-            </div>
-                
-            <div id="starters">
-           
-            </div>
-            
+            <div id="starters"></div>
+            <div id="main" ></div>
+            <div id="desserts" ></div>
+            <div id="test" ></div>
         </div>
     </div>
 </div>
 
 
-<!-- Dish description view -->
-<div id="dishDescriptionView" style="display:none">    
-    <div class="col-md-8" style="border-style:solid ">        
-        <div class="col-md-6">
-            <div id="loading" style="display:none">
-                <img  class="img" id="loading-image" src="images/ajax-loader.gif" alt="Loading..." />
-            </div>            
+<!-- Dish description view -->  
+<div id="dishDescriptionView" style="display: none;">
+    <div class="col-md-8" style="border-style:solid " >
+        <div class="col-md-6" >
             <h3 id='dishName'></h3>
-            <img id="dishImg" style="margin-top: 5px; margin-bottom: 5px; margin-right:5px; width: 150px; height:150px">
+            <img id="dishImg">
             <p id="dishDescription" style="color:rgba(146,146,146,1.00); font-size:12px; width:300px;"></p>
             <p><button id="backToSelectDish" class="btn btn-xlarge btn-signup">back to select dish</button></p>
             <div>
@@ -120,7 +117,7 @@
 </div>
 
     <!-- Number of Guests view !-->
-<div id="numGuestsView" style="display: none">
+<div id="numGuestsView" style="display: none;">
 
     <div class="col-md-12" style="background-color:rgba(240,234,156,1.00)" > 
         <div class=" col-md-9">
@@ -134,9 +131,11 @@
 
     <!-- dinner overview view !-->
 <div id="summaryView"  style="display: none;">  
-    <div id="starters" class="col-md-9" style="border-right:dashed rgba(235,235,235,1.00)" >
+    <div class="col-md-9" style="border-right:dashed rgba(235,235,235,1.00)" >
         <div  class="col-md-4">
-            <div  class="subtitle">                
+            <div class="subtitle">
+                <img id="starter" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
+                <h6 id="starterName">aaa</h6>
             </div>
             <p id="starterCost"style="color:rgba(241,117,119,1.00); text-align:left;font-size:12px;"></p>
         </div>
@@ -169,17 +168,8 @@
 </div>
 
 <!-- dinner preparation view !-->
-    <div id="instructionsView" style="display: none">
-
-
-
-        <div id="dishes" >
-                      
-        
-        </div>
-    <!--
-
-        <div id="dishes" class="col-md-12" style=" border-bottom:dashed rgba(232,232,232,1.00)">
+    <div id="instructionsView" style="display: none;">
+        <div class="col-md-12" style=" border-bottom:dashed rgba(232,232,232,1.00)">
             <div class="col-md-2">
                 <img id="starter" style="margin-top: 5px; margin-bottom: 5px; width: 120px;">
             </div>
@@ -190,10 +180,29 @@
             <div id="starterIngredients" class="col-md-6">
             </div>
         </div>
-    -->
 
-        
+        <div class="col-md-12" style=" border-bottom:dashed rgba(232,232,232,1.00)">
+            <div class="col-md-2">
+            <img id="main" style="margin-top: 5px; margin-bottom: 5px; width: 120px;"></div>
+            <div class="col-md-4">
+            <h4 id="mainName"></h4>
+            <p id="mainDescription" style="font-size:10px"></p>
+            </div>
+            <div id="mainIngredients" class="col-md-6">
+            </div>
+        </div>
 
+        <div class="col-md-12" style=" border-bottom:dashed rgba(232,232,232,1.00)">
+            <div class="col-md-2">
+            <img id="dessert" style="margin-top: 5px; margin-bottom: 5px; width: 120px;"></div>
+            <div class="col-md-4">
+            <h4 id="dessertName"></h4>
+            <p id="dessertDescription" style="font-size:10px"> 
+            </p>
+        </div>
+        <div id="dessertIngredients" class="col-md-6">
+        </div>
+    </div>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery.js"></script>
